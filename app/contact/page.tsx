@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import React from "react";
 
@@ -14,14 +14,18 @@ import ResourcesSection from "@/components/resources/ResourcesSection";
 import ProductHero from "@/components/products/Hero";
 import ProductSection from "@/components/products/ProductSection";
 import ContactHero from "@/components/contact/Hero";
+import { fetchContactSection } from "@/lib/contact";
+import { fetchFAQSection } from "@/lib/Faq";
 
-export default function Contact() {
+export default async function Contact() {
+  const contactData = await fetchContactSection();
+  const faqData = await fetchFAQSection();
   return (
     <>
       <main className="main-wrapper sub-pages">
-        <ContactHero />
+        <ContactHero contactData={contactData} />
         {/* <TestimonialsSection /> */}
-        <FAQSection />
+        <FAQSection data={faqData} />
       </main>
       <Footer />
     </>

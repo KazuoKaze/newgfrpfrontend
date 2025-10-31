@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import React from "react";
 
@@ -16,14 +16,20 @@ import ProductSection from "@/components/products/ProductSection";
 import BlogHero from "@/components/blog/Hero";
 import BlogSection from "@/components/blog/BlogSection";
 
-export default function Blog() {
+import { fetchBlogs, fetchFeaturedBlog, getImageUrl } from "@/lib/blog";
+import { fetchFAQSection } from "@/lib/Faq";
+
+export default async function Blog() {
+  const allBlogs = await fetchBlogs();
+  const featuredBlog = await fetchFeaturedBlog();
+  const faqData = await fetchFAQSection();
   return (
     <>
       <main className="main-wrapper sub-pages">
         {/* <BlogHero /> */}
-        <BlogSection />
+        <BlogSection allBlogs={allBlogs} featuredBlog={featuredBlog} />
         {/* <TestimonialsSection /> */}
-        <FAQSection />
+        <FAQSection data={faqData} />
       </main>
       <Footer />
     </>

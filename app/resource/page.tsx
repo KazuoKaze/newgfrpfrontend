@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import React from "react";
 import Hero from "@/components/Hero";
@@ -12,15 +12,19 @@ import Footer from "@/components/Footer";
 import ProductSection from "@/components/Products";
 import ResourcesHero from "@/components/resources/Hero";
 import ResourcesSection from "@/components/resources/ResourcesSection";
+import { fetchResourcesSection } from "@/lib/resource-section";
+import { fetchFAQSection } from "@/lib/Faq";
 
-export default function Resources() {
+export default async function Resources() {
+  const resourcesData = await fetchResourcesSection();
+  const faqData = await fetchFAQSection();
   return (
     <>
       <main className="main-wrapper sub-pages">
         {/* <ResourcesHero /> */}
-        <ResourcesSection />
+        <ResourcesSection data={resourcesData} />
         {/* <TestimonialsSection /> */}
-        <FAQSection />
+        <FAQSection data={faqData} />
       </main>
       <Footer />
     </>

@@ -1,5 +1,5 @@
 const PAYLOAD_API_URL =
-  process.env.NEXT_PUBLIC_PAYLOAD_API_URL || "https://newgfrpbackendss.vercel.app/api";
+  process.env.NEXT_PUBLIC_PAYLOAD_API_URL || "https://newgfrpbackend.vercel.app/api";
 
 export async function fetchResourcesSection() {
   try {

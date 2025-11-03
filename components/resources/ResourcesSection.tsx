@@ -255,70 +255,7 @@ interface ResourcesSectionProps {
 
 const ResourcesSection = ({ data }: ResourcesSectionProps) => {
   // If no data provided, use demo data
-  const resource = data || {
-    content: {
-      label: "Resources",
-      title: "Technical Resources & Documentation",
-      description:
-        "All our products are certified and fully compliant with industry standards — ensuring unmatched quality, performance, and reliability in every application.",
-    },
-    technicalResources: [
-      {
-        title: "Product Certification Report",
-        description:
-          "Comprehensive certification documentation demonstrating compliance with international quality standards and testing protocols.",
-        file: null,
-        externalLink: "#",
-        openInNewTab: true,
-        isActive: true,
-      },
-      {
-        title: "Installation Guidelines",
-        description:
-          "Detailed installation procedures and best practices for optimal product performance and longevity.",
-        file: null,
-        externalLink: "#",
-        openInNewTab: true,
-        isActive: true,
-      },
-      {
-        title: "Technical Specifications",
-        description:
-          "Complete technical data sheets including material properties, dimensions, and performance characteristics.",
-        file: null,
-        externalLink: "#",
-        openInNewTab: true,
-        isActive: true,
-      },
-      {
-        title: "Safety & Compliance Manual",
-        description:
-          "Essential safety information and regulatory compliance documentation for safe product handling and usage.",
-        file: null,
-        externalLink: "#",
-        openInNewTab: true,
-        isActive: true,
-      },
-      {
-        title: "Performance Test Results",
-        description:
-          "Independent laboratory test results validating product durability, strength, and reliability under various conditions.",
-        file: null,
-        externalLink: "#",
-        openInNewTab: true,
-        isActive: true,
-      },
-      {
-        title: "Maintenance Guide",
-        description:
-          "Comprehensive maintenance procedures and recommendations to ensure long-term product performance and reliability.",
-        file: null,
-        externalLink: "#",
-        openInNewTab: true,
-        isActive: true,
-      },
-    ],
-  };
+  const resource = data 
 
   // Filter active resources and sort by order
   const activeResources =

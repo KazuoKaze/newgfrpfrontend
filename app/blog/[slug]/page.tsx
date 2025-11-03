@@ -120,7 +120,7 @@
 //   try {
 //     const res = await fetch(
 //       `${
-//         process.env.NEXT_PUBLIC_PAYLOAD_API_URL || "http://localhost:3001/api"
+//         process.env.NEXT_PUBLIC_PAYLOAD_API_URL || "https://newgfrpbackend.vercel.app/api"
 //       }/blogs?limit=1000&where[isActive][equals]=true`
 //     );
 
@@ -416,7 +416,7 @@ export async function generateStaticParams() {
   try {
     const res = await fetch(
       `${
-        process.env.NEXT_PUBLIC_PAYLOAD_API_URL || "http://localhost:3001/api"
+        process.env.NEXT_PUBLIC_PAYLOAD_API_URL || "https://newgfrpbackend.vercel.app/api"
       }/blogs?limit=1000&where[isActive][equals]=true`
     );
     if (!res.ok) return [];

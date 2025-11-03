@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 const BACKEND_URL =
-  process.env.NEXT_PUBLIC_PAYLOAD_URL || "http://localhost:3001";
+  process.env.NEXT_PUBLIC_PAYLOAD_URL || "https://newgfrpbackend.vercel.app";
 const FRONTEND_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 

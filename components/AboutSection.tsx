@@ -262,41 +262,133 @@ interface AboutData {
   titleColor: string;
 }
 
-const AboutSection = ({ data }: { data: AboutData }) => {
-  const richTextToHtml = (richText: any): string => {
-    if (!richText || !richText.root || !richText.root.children) {
-      return "";
-    }
 
-    const processNode = (node: any): string => {
+export function renderRichText(richTextContent: any): string {
+  if (!richTextContent) return "";
+
+  // Handle Lexical editor format from Payload CMS
+  if (richTextContent.root && richTextContent.root.children) {
+    return renderLexicalNodes(richTextContent.root.children);
+  }
+
+  // Fallback for string content
+  if (typeof richTextContent === "string") {
+    return richTextContent;
+  }
+
+  return "";
+}
+
+function renderLexicalNodes(nodes: any[]): string {
+  if (!Array.isArray(nodes)) return "";
+
+  return nodes
+    .map((node: any) => {
+      // Handle paragraph nodes
+      if (node.type === "paragraph") {
+        const alignment = node.format || "start";
+        const alignClass =
+          alignment !== "start" ? ` style="text-align: ${alignment}"` : "";
+        const content = node.children ? renderLexicalNodes(node.children) : "";
+
+        // Don't render empty paragraphs
+        if (!content.trim()) {
+          return "<br />";
+        }
+
+        return `<p${alignClass}>${content}</p>`;
+      }
+
+      // Handle text nodes
       if (node.type === "text") {
-        return node.text || "";
+        let text = node.text || "";
+
+        // Apply formatting
+        if (node.format === 1 || node.format === "bold") {
+          text = `<strong>${text}</strong>`;
+        }
+        if (node.format === 2 || node.format === "italic") {
+          text = `<em>${text}</em>`;
+        }
+        if (node.format === 4 || node.format === "underline") {
+          text = `<u>${text}</u>`;
+        }
+
+        return text;
       }
 
-      if (node.children) {
-        return node.children.map(processNode).join("");
+      // Handle line breaks
+      if (node.type === "linebreak") {
+        return "<br />";
+      }
+
+      // Handle heading nodes
+      if (node.type === "heading") {
+        const tag = node.tag || "h2";
+        const content = node.children ? renderLexicalNodes(node.children) : "";
+        return `<${tag}>${content}</${tag}>`;
+      }
+
+      // Handle list nodes
+      if (node.type === "list") {
+        const listTag = node.listType === "number" ? "ol" : "ul";
+        const content = node.children ? renderLexicalNodes(node.children) : "";
+        return `<${listTag}>${content}</${listTag}>`;
+      }
+
+      // Handle list item nodes
+      if (node.type === "listitem") {
+        const content = node.children ? renderLexicalNodes(node.children) : "";
+        return `<li>${content}</li>`;
+      }
+
+      // Handle link nodes
+      if (node.type === "link") {
+        const url = node.url || "#";
+        const content = node.children ? renderLexicalNodes(node.children) : "";
+        return `<a href="${url}">${content}</a>`;
       }
 
       return "";
-    };
+    })
+    .join("");
+}
 
-    return richText.root.children.map(processNode).join("");
-  };
+const AboutSection = ({ data }: { data: AboutData }) => {
+  // const richTextToHtml = (richText: any): string => {
+  //   if (!richText || !richText.root || !richText.root.children) {
+  //     return "";
+  //   }
+
+  //   const processNode = (node: any): string => {
+  //     if (node.type === "text") {
+  //       return node.text || "";
+  //     }
+
+  //     if (node.children) {
+  //       return node.children.map(processNode).join("");
+  //     }
+
+  //     return "";
+  //   };
+
+  //   return richText.root.children.map(processNode).join("");
+  // };
 
   const about = {
     testimonial_title: data.testimonialTitle,
     image: data.image1.cloudinary_url,
     image2: data.image2.cloudinary_url,
     title: data.title,
-    description: richTextToHtml(data.description),
+    description: renderRichText(data.description),
   };
 
   const how = {
     title: data.howToStart.title,
-    description: richTextToHtml(data.howToStart.description),
+    description: renderRichText(data.howToStart.description),
     sub_sections: data.howToStart.steps.map((step) => ({
       title: step.title,
-      description: richTextToHtml(step.description),
+      description: renderRichText(step.description),
     })),
   };
 
@@ -451,7 +543,10 @@ const AboutSection = ({ data }: { data: AboutData }) => {
                     data-w-id="b50b08c2-3d46-f4f6-a545-016aace99180"
                     className="about_bottom-container-subtext"
                     style={{ color: data.howToStart.descriptionColor }}
-                    dangerouslySetInnerHTML={{ __html: how.description }}
+                    // dangerouslySetInnerHTML={{ __html: how.description }}
+                    dangerouslySetInnerHTML={{
+                      __html: renderRichText(how.description),
+                    }}
                   ></p>
                 </div>
               </div>
